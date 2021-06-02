@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.second.dao.TeacherDao">
+    <resultMap id="BaseResultMap" type="com.example.second.entity.Teacher">
+        <id column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="age" property="age" jdbcType="INTEGER"/>
+        <result column="sex" property="sex" jdbcType="VARCHAR"/>
+        <result column="origin" property="origin" jdbcType="VARCHAR"/>
+        <result column="major" property="major" jdbcType="VARCHAR"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="seniority" property="seniority" jdbcType="INTEGER"/>
+        <result column="birth" property="birth" jdbcType="DATE"/>
+        <result column="salary" property="salary" jdbcType="BIGINT"/>
+        <result column="school" property="school" jdbcType="VARCHAR"/>
+        <result column="single" property="single" javaType="VARCHAR"/>
+        <result column="child" property="child" javaType="VARCHAR"/>
+        <result column="weight" property="weight" javaType="VARCHAR"/>
+        <result column="height" property="height" javaType="VARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        uid, id, name, age, sex, origin, major, position ,seniority,birth, salary, school,single,child,weight,height
+    </sql>
+
+    <select id="findAllTeachers" resultType="com.example.second.entity.Teacher">
+        select * from teacher
+    </select>
+
+    <select id="findTeacherByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select * from teacher where name = #{name,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteTeachersByIds">
+        delete from teacher where uid in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCountTeachers" resultType="java.lang.Integer">
+        select count(uid) as count from teacher
+    </select>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from Teacher
+        where uid = #{uid,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteTeacherById" parameterType="java.lang.Long">
+        delete from teacher
+        where uid = #{uid,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.second.entity.Teacher">
+        insert into teacher (uid, id, name, age,
+                             sex, school, major,position ,seniority, birth, salary, origin,single,child,weight,height)
+        values (#{uid,jdbcType=BIGINT}, #{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
+                #{sex,jdbcType=VARCHAR},#{school,jdbcType=VARCHAR},
+                #{major,jdbcType=VARCHAR},{position ,jdbcType=VARCHAR},{seniority,jdbcType=INTEGER}, #{birth,jdbcType=DATE},
+                #{salary,jdbcType=BIGINT}, #{origin,jdbcType=VARCHAR}, #{single,jdbcType=VARCHAR}, #{child,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR, #{height,jdbcType=VARCHAR}}
+                )
+    </insert>
+    <insert id="addTeacher" parameterType="com.example.second.entity.Teacher">
+        insert into teacher
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="school != null">
+                school,
+            </if>
+            <if test="major != null">
+                major,
+            </if>
+            <if test="position != null">
+                position,
+            </if>
+            <if test="seniority != null">
+                seniority,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="salary != null">
+                salary,
+            </if>
+            <if test="origin != null">
+                origin,
+            </if>
+            <if test="single != null">
+                single,
+            </if>
+            <if test="child != null">
+                child,
+            </if>
+            <if test="weight != null">
+                weight,
+            </if>
+            <if test="height != null">
+                height,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">
+                #{uid,jdbcType=BIGINT},
+            </if>
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="seniority != null">
+                #{seniority,jdbcType=INTEGER},
+            </if>
+            <if test="birth != null">
+                #{birth,jdbcType=DATE},
+            </if>
+            <if test="salary != null">
+                #{salary,jdbcType=BIGINT},
+            </if>
+            <if test="origin != null">
+                #{origin,jdbcType=VARCHAR},
+            </if>
+            <if test="single != null">
+                #{single,jdbcType=VARCHAR},
+            </if>
+            <if test="child != null">
+                #{child,jdbcType=VARCHAR},
+            </if>
+            <if test=" weight!= null">
+                #{weight,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                #{height,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateTeacher" parameterType="com.example.second.entity.Teacher">
+        update teacher
+        <set>
+            <if test="id != null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="school != null">
+                school = #{school,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                major = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="position != null">
+                position = #{position,jdbcType=VARCHAR},
+            </if>
+            <if test="seniority != null">
+                seniority = #{seniority,jdbcType=INTEGER},
+            </if>
+            <if test="birth != null">
+                birth = #{birth,jdbcType=DATE},
+            </if>
+            <if test="salary != null">
+                salary = #{salary,jdbcType=BIGINT},
+            </if>
+            <if test="origin != null">
+                origin = #{origin,jdbcType=VARCHAR},
+            </if>
+            <if test="single != null">
+                origin = #{single,jdbcType=VARCHAR},
+            </if>
+            <if test="child != null">
+                origin = #{child,jdbcType=VARCHAR},
+            </if>
+            <if test="weight != null">
+                origin = #{weight,jdbcType=VARCHAR},
+            </if>
+            <if test="height != null">
+                origin = #{height,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.second.entity.Teacher">
+        update teacher
+        set name = #{name,jdbcType=VARCHAR},
+            id = #{id,jdbcType=BIGINT},
+            sex = #{sex,jdbcType=VARCHAR},
+            age = #{age,jdbcType=INTEGER},
+            school = #{school,jdbcType=VARCHAR},
+            major = #{major,jdbcType=VARCHAR},
+            position = #{position,jdbcType=VARCHAR},
+            seniority = #{seniority,jdbcType=INTEGER},
+            birth = #{birth,jdbcType=DATE},
+            salary = #{salary,jdbcType=BIGINT},
+            origin = #{origin,jdbcType=VARCHAR},
+            single = #{single,jdbcType=VARCHAR},
+            child = #{child,jdbcType=VARCHAR},
+            weight = #{weight,jdbcType=VARCHAR},
+            height = #{height,jdbcType=VARCHAR},
+
+        where uid = #{uid,jdbcType=BIGINT}
+    </update>
+</mapper>
